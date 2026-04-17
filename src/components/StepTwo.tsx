@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
 import { medMateClient } from "../api/client";
@@ -15,12 +15,18 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
   const [dobDay, setDobDay] = useState("");
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!consent) return;
-    setLoading(true);
 
+    if (!consent) {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 800);
+      return;
+    }
+
+    setLoading(true);
     try {
       const data = await medMateClient.registerCustomer({
         phone,
@@ -33,7 +39,7 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
         onComplete({ ...data, fullName: name });
       }
     } catch (err) {
-      alert("Could not complete registration. Please try again.");
+      console.error("MedMate Registration Error", err);
     } finally {
       setLoading(false);
     }
@@ -92,22 +98,6 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
                 </option>
               ))}
             </select>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-              <svg
-                width="10"
-                height="6"
-                viewBox="0 0 12 8"
-                fill="none"
-              >
-                <path
-                  d="M1 1.5L6 6.5L11 1.5"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
           </div>
           <input
             type="number"
@@ -121,32 +111,44 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
         </div>
       </div>
 
-      {/* Haptic Consent Card */}
+      {/* 2026 Validation Card */}
       <div
-        onClick={() => setConsent(!consent)}
-        className={`relative flex items-center gap-4 p-5 rounded-[1.8rem] border-2 transition-all duration-500 cursor-pointer select-none ${
-          consent
-            ? "bg-white border-blue-500/20 shadow-xl scale-[1.02]"
-            : "bg-slate-100/40 border-transparent hover:bg-slate-100/60"
-        }`}
+        onClick={() => {
+          setConsent(!consent);
+          if (showError) setShowError(false);
+        }}
+        className={`relative flex items-center gap-4 p-5 rounded-[1.8rem] border-2 transition-all duration-300 cursor-pointer select-none 
+          ${showError ? "animate-shake border-red-500/40 bg-red-50/50" : ""}
+          ${!showError && consent ? "bg-white border-blue-500/20 shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] scale-[1.02]" : "bg-slate-100/40 border-transparent hover:bg-slate-100/60"}
+        `}
       >
         <div
-          className={`flex items-center justify-center w-9 h-9 rounded-full transition-all duration-500 ${consent ? "bg-blue-600 shadow-lg shadow-blue-200" : "bg-slate-200"}`}
+          className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500 
+            ${showError ? "bg-red-500 text-white" : consent ? "bg-blue-600 shadow-lg shadow-blue-200" : "bg-slate-200"}
+          `}
         >
-          <CheckCircle2
-            size={20}
-            strokeWidth={3}
-            className={`transition-opacity ${consent ? "text-white opacity-100" : "text-slate-400 opacity-40"}`}
-          />
+          {showError ? (
+            <AlertCircle size={22} />
+          ) : (
+            <CheckCircle2
+              size={22}
+              strokeWidth={3}
+              className={consent ? "text-white" : "text-slate-400 opacity-40"}
+            />
+          )}
         </div>
         <div className="flex-1">
           <p
-            className={`text-[13px] font-bold ${consent ? "text-slate-900" : "text-slate-500"}`}
+            className={`text-[13px] font-bold ${showError ? "text-red-700" : consent ? "text-slate-900" : "text-slate-500"}`}
           >
-            WhatsApp Opt-in
+            {showError ? "Consent Required" : "WhatsApp Opt-in"}
           </p>
-          <p className="text-[11px] text-slate-400 font-medium leading-tight">
-            Instant rewards & safety updates.
+          <p
+            className={`text-[11px] font-medium leading-tight ${showError ? "text-red-400" : "text-slate-400"}`}
+          >
+            {showError
+              ? "Please accept terms to claim voucher."
+              : "Instant rewards & safety updates."}
           </p>
         </div>
       </div>
@@ -155,7 +157,7 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
         variant="success"
         isLoading={loading}
         type="submit"
-        className="w-full py-6 text-lg rounded-[1.8rem]"
+        className={`w-full py-6 text-lg rounded-[1.8rem] transition-all duration-300 ${!consent ? "opacity-60 grayscale-[0.5]" : ""}`}
       >
         Claim My Voucher <Send size={20} />
       </Button>
