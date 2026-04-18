@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { Button } from "./ui/Button";
 import { medMateClient } from "../api/client";
 
@@ -57,18 +57,14 @@ export const StepOne = ({ onRegistered, onNotRegistered }: StepOneProps) => {
           />
         </div>
       </div>
-
       <Button
-        isLoading={loading}
         type="submit"
-        className="w-full py-6 text-lg rounded-[1.8rem] shadow-xl shadow-blue-500/25"
+        isLoading={loading}
+        className="w-full py-6 text-lg rounded-[1.8rem] bg-blue-600 hover:bg-blue-700 shadow-xl transition-all"
       >
-        <Search
-          size={22}
-          strokeWidth={3}
-          className="opacity-90"
-        />
-        <span className="tracking-tight">Check Loyalty Status</span>
+        <span className="tracking-tight flex items-center gap-2">
+          Claim Welcome Voucher <ArrowRight size={20} />
+        </span>
       </Button>
     </form>
   );
