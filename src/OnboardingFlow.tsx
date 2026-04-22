@@ -5,7 +5,6 @@ import { StepTwo } from "./components/StepTwo";
 import { SuccessMessage } from "./components/SuccessMessage";
 import {
   Activity,
-  ArrowRight,
   Sparkles,
   ShieldCheck,
   Heart,
