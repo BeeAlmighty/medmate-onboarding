@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/Button";
 import { medMateClient } from "../api/client";
 
@@ -39,7 +39,7 @@ export const StepOne = ({ onRegistered, onNotRegistered }: StepOneProps) => {
       className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-700"
     >
       <div className="space-y-2 group">
-        <label className="text-[11px] font-black text-slate-400 ml-1 uppercase tracking-[0.15em] group-focus-within:text-blue-600 transition-colors">
+        <label className="text-[11px] font-black text-blue-400 ml-1 uppercase tracking-[0.15em] group-focus-within:text-blue-600 transition-colors">
           WhatsApp Number
         </label>
 
@@ -51,7 +51,7 @@ export const StepOne = ({ onRegistered, onNotRegistered }: StepOneProps) => {
             required
             type="tel"
             placeholder="812 345 6789"
-            className="flex-1 px-4 py-4 bg-transparent text-slate-900 font-bold text-lg outline-none placeholder:text-slate-300"
+            className="flex-1 px-4 py-4 bg-transparent text-blue-900 font-bold text-lg outline-none placeholder:text-blue-300"
             value={inputNumber}
             onChange={(e) => setInputNumber(e.target.value.replace(/\D/g, ""))}
           />

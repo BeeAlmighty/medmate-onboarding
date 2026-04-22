@@ -1,43 +1,52 @@
 // src/types/index.ts
 
 /**
- * Core Patient data collected from the onboarding form
+ * Valid statuses for a MedMate privilege/voucher
  */
+export type PrivilegeStatus = "UNUSED" | "USED" | "EXPIRED";
+
 export interface Patient {
   name: string;
   phone: string;
-  dob: string; // Formatted as "Month-Day"
+  dob: string;
   consent: boolean;
   registrationDate?: string;
 }
 
-/**
- * Response structure from the n8n 'check-customer' webhook
- */
+export interface MedMatePrivilege {
+  id: string;
+  code: string;
+  benefitType: string;
+  status: PrivilegeStatus; // Now correctly defined above
+  patientName: string;
+  expiryDate?: string;
+}
+
+export interface TerminalAuthResponse {
+  authorized: boolean;
+  staffName?: string;
+}
+
 export interface LoyaltyCheckResponse {
   exists: boolean;
   name?: string;
-  tier?: 'Silver' | 'Gold' | 'Platinum';
+  tier?: "Silver" | "Gold" | "Platinum";
 }
 
-/**
- * Props for the StepOne component
- */
 export interface StepOneProps {
-  onRegistered: () => void;
+  onRegistered: (data: { greeting?: string; firstName?: string }) => void;
   onNotRegistered: (phone: string) => void;
 }
 
-/**
- * Props for the StepTwo component
- */
 export interface StepTwoProps {
   phone: string;
+  onComplete: (data: {
+    greeting?: string;
+    firstName?: string;
+    fullName?: string;
+  }) => void;
 }
 
-/**
- * Standard API Error structure
- */
 export interface ApiError {
   message: string;
   status?: number;

@@ -53,20 +53,20 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
       <Input
         label="Full Name"
         required
-        placeholder="e.g. Moses Maduakonam"
+        placeholder="e.g. Enter Your Name"
         onChange={(e) => setName(e.target.value)}
       />
 
       {/* Bento-Style Birthday Group */}
       <div className="space-y-2 group">
-        <label className="text-[11px] font-black text-slate-400 ml-1 uppercase tracking-[0.15em] group-focus-within:text-blue-500 transition-colors">
+        <label className="text-[11px] font-black text-blue-400 ml-1 uppercase tracking-[0.15em] group-focus-within:text-blue-500 transition-colors">
           Date of Birth
         </label>
-        <div className="grid grid-cols-2 gap-3 p-2 bg-slate-100/40 backdrop-blur-md rounded-[2rem] border-2 border-transparent group-focus-within:border-blue-500/10 transition-all">
+        <div className="grid grid-cols-2 gap-3 p-2 bg-blue-300/40 backdrop-blur-md rounded-[2rem] border-2 border-transparent group-focus-within:border-blue-500/10 transition-all">
           <div className="relative">
             <select
               required
-              className="appearance-none w-full px-5 py-4 bg-white rounded-[1.4rem] text-slate-900 font-bold text-base outline-none shadow-sm cursor-pointer"
+              className="appearance-none w-full px-5 py-4 bg-white rounded-[1.4rem] text-blue-900 font-bold text-base outline-none shadow-sm cursor-pointer"
               onChange={(e) => setDobMonth(e.target.value)}
             >
               <option
@@ -105,7 +105,7 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
             min="1"
             max="31"
             required
-            className="w-full px-5 py-4 bg-white rounded-[1.4rem] text-slate-900 font-bold text-base outline-none shadow-sm placeholder:text-slate-300"
+            className="w-full px-5 py-4 bg-white rounded-[1.4rem] text-blue-600 font-bold text-base outline-none shadow-sm placeholder:text-slate-300"
             onChange={(e) => setDobDay(e.target.value)}
           />
         </div>
@@ -157,7 +157,7 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
         variant="success"
         isLoading={loading}
         type="submit"
-        className={`w-full py-6 text-lg rounded-[1.8rem] transition-all duration-300 ${!consent ? "opacity-60 grayscale-[0.5]" : ""}`}
+        className={`w-full py-6 text-lg rounded-[1.8rem] transition-all duration-300 ${!consent ? "opacity-90 grayscale-[0.5]" : ""}`}
       >
         Claim My Voucher <Send size={20} />
       </Button>
