@@ -31,7 +31,7 @@ export default function OnboardingFlow() {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-[#1A1A1A] font-sans selection:bg-blue-100 flex flex-col antialiased">
+    <div className="min-h-screen bg-[#FAFAFA] overflow-x-hidden text-[#1A1A1A] font-sans selection:bg-blue-100 flex flex-col antialiased">
       {/* 1. SLIM TOP NAV */}
       <nav className="fixed top-0 z-50 w-full bg-white/40 backdrop-blur-md px-8 py-4 flex justify-between items-center border-b border-slate-200/20">
         <div className="flex items-center gap-2">

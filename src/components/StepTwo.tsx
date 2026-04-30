@@ -13,7 +13,8 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
   const [name, setName] = useState("");
   const [dobMonth, setDobMonth] = useState("");
   const [dobDay, setDobDay] = useState("");
-  const [consent, setConsent] = useState(false);
+  // 1. Auto-checked by default for better conversion
+  const [consent, setConsent] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
 
@@ -53,20 +54,20 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
       <Input
         label="Full Name"
         required
-        placeholder="e.g. Enter Your Name"
+        placeholder="Enter your first and last name"
         onChange={(e) => setName(e.target.value)}
       />
 
       {/* Bento-Style Birthday Group */}
       <div className="space-y-2 group">
-        <label className="text-[11px] font-black text-blue-400 ml-1 uppercase tracking-[0.15em] group-focus-within:text-blue-500 transition-colors">
-          Date of Birth
+        <label className="text-[11px] font-black text-blue-500/80 ml-1 uppercase tracking-[0.15em] group-focus-within:text-blue-600 transition-colors">
+          Your Birthday
         </label>
-        <div className="grid grid-cols-2 gap-3 p-2 bg-blue-300/40 backdrop-blur-md rounded-[2rem] border-2 border-transparent group-focus-within:border-blue-500/10 transition-all">
+        <div className="grid grid-cols-2 gap-3 p-2 bg-blue-50 rounded-[2rem] border border-blue-100 group-focus-within:border-blue-300 transition-all">
           <div className="relative">
             <select
               required
-              className="appearance-none w-full px-5 py-4 bg-white rounded-[1.4rem] text-blue-900 font-bold text-base outline-none shadow-sm cursor-pointer"
+              className="appearance-none w-full px-5 py-4 bg-white rounded-[1.4rem] text-blue-900 font-bold text-base outline-none shadow-sm cursor-pointer border border-transparent focus:border-blue-400"
               onChange={(e) => setDobMonth(e.target.value)}
             >
               <option
@@ -105,50 +106,49 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
             min="1"
             max="31"
             required
-            className="w-full px-5 py-4 bg-white rounded-[1.4rem] text-blue-600 font-bold text-base outline-none shadow-sm placeholder:text-slate-300"
+            className="w-full px-5 py-4 bg-white rounded-[1.4rem] text-blue-600 font-bold text-base outline-none shadow-sm border border-transparent focus:border-blue-400 placeholder:text-slate-300"
             onChange={(e) => setDobDay(e.target.value)}
           />
         </div>
       </div>
 
-      {/* 2026 Validation Card */}
+      {/* Improved Consent Card: More descriptive and trust-focused */}
       <div
         onClick={() => {
           setConsent(!consent);
           if (showError) setShowError(false);
         }}
-        className={`relative flex items-center gap-4 p-5 rounded-[1.8rem] border-2 transition-all duration-300 cursor-pointer select-none 
-          ${showError ? "animate-shake border-red-500/40 bg-red-50/50" : ""}
-          ${!showError && consent ? "bg-white border-blue-500/20 shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] scale-[1.02]" : "bg-slate-100/40 border-transparent hover:bg-slate-100/60"}
+        className={`relative flex items-center gap-4 p-5 rounded-[2.2rem] border-2 transition-all duration-500 cursor-pointer select-none 
+          ${showError ? "animate-shake border-red-500 bg-red-50" : ""}
+          ${!showError && consent ? "bg-blue-50/50 border-blue-500/30 shadow-md shadow-blue-500/5" : "bg-slate-50 border-slate-200 opacity-70"}
         `}
       >
         <div
-          className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500 
-            ${showError ? "bg-red-500 text-white" : consent ? "bg-blue-600 shadow-lg shadow-blue-200" : "bg-slate-200"}
+          className={`flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-500 shrink-0
+            ${showError ? "bg-red-500 text-white" : consent ? "bg-blue-600 text-white shadow-lg shadow-blue-200" : "bg-slate-200 text-slate-400"}
           `}
         >
           {showError ? (
-            <AlertCircle size={22} />
+            <AlertCircle size={24} />
           ) : (
             <CheckCircle2
-              size={22}
+              size={24}
               strokeWidth={3}
-              className={consent ? "text-white" : "text-slate-400 opacity-40"}
             />
           )}
         </div>
         <div className="flex-1">
           <p
-            className={`text-[13px] font-bold ${showError ? "text-red-700" : consent ? "text-slate-900" : "text-slate-500"}`}
+            className={`text-[14px] font-black tracking-tight ${showError ? "text-red-700" : consent ? "text-blue-900" : "text-slate-500"}`}
           >
-            {showError ? "Consent Required" : "WhatsApp Opt-in"}
+            {showError ? "Consent Required" : "Agree to Rewards"}
           </p>
           <p
-            className={`text-[11px] font-medium leading-tight ${showError ? "text-red-400" : "text-slate-400"}`}
+            className={`text-[11px] font-medium leading-snug ${showError ? "text-red-500" : "text-slate-500"}`}
           >
             {showError
-              ? "Please accept terms to claim voucher."
-              : "Instant rewards & safety updates."}
+              ? "Please accept terms to claim your benefits."
+              : "I want to receive my digital vouchers via WhatsApp."}
           </p>
         </div>
       </div>
@@ -157,9 +157,13 @@ export const StepTwo = ({ phone, onComplete }: StepTwoProps) => {
         variant="success"
         isLoading={loading}
         type="submit"
-        className={`w-full py-6 text-lg rounded-[1.8rem] transition-all duration-300 ${!consent ? "opacity-90 grayscale-[0.5]" : ""}`}
+        className={`w-full py-7 text-xl rounded-[2rem] shadow-xl shadow-green-500/20 transition-all duration-500 active:scale-95 ${!consent ? "opacity-50 pointer-events-none" : ""}`}
       >
-        Claim My Voucher <Send size={20} />
+        Claim My Rewards{" "}
+        <Send
+          size={20}
+          className="ml-2"
+        />
       </Button>
     </form>
   );
